@@ -1,0 +1,51 @@
+type FilteredPost {
+  id: Int!
+  authorId: String!
+  content: String!
+  imageLinks: [String!]
+  videoLinks: [String!]
+  createdAt: String
+  updatedAt: String
+  author: FilteredUser!
+  isLikedBy(userId: String!): Boolean!
+}
+
+type FilteredUser {
+  id: String!
+  username: String!
+  name: String!
+  email: String!
+  photo: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Mutation {
+  createPost(post: PostInput!): FilteredPost!
+  postAction(token: String!, postId: Int!, action: PostAction!): String!
+}
+
+enum PostAction {
+  LIKE
+  REMOVE_LIKE
+}
+
+input PostInput {
+  content: String!
+  imageLinks: [String!]
+  videoLinks: [String!]
+}
+
+type Query {
+  getUser(username: String!): FilteredUser
+  userAction(userId: String!, action: UserAction!): String!
+  getPost(id: Int!): FilteredPost
+  getPosts(page: Int!): [FilteredPost!]!
+}
+
+enum UserAction {
+  FOLLOW
+  UNFOLLOW
+  MUTE
+  UNMUTE
+}
